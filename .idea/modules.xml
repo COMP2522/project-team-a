@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bcit.comp2522.project-team-a.project-team-a.iml" filepath="$PROJECT_DIR$/.idea/modules/bcit.comp2522.project-team-a.project-team-a.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bcit.comp2522.project-team-a.project-team-a.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bcit.comp2522.project-team-a.project-team-a.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bcit.comp2522.project-team-a.project-team-a.test.iml" filepath="$PROJECT_DIR$/.idea/modules/bcit.comp2522.project-team-a.project-team-a.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/project-team-a.iml" filepath="$PROJECT_DIR$/.idea/project-team-a.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/src/project-team-a.src.iml" filepath="$PROJECT_DIR$/.idea/modules/src/project-team-a.src.iml" />
     </modules>
   </component>
 </project>
