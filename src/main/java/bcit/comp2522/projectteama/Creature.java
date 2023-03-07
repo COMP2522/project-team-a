@@ -4,6 +4,7 @@ import processing.core.PVector;
 
 import java.awt.*;
 
+
 public abstract class Creature extends Sprite{
   protected int lives;
 
