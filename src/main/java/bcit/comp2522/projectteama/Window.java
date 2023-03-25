@@ -35,10 +35,6 @@ public class Window extends PApplet{
     menu.menuButtons();
   }
 
-  public void settings() {
-    size(640, 360);
-  }
-
   /**
    * initializes all the elements that are required.
    * these include the player and enemy.
@@ -47,12 +43,7 @@ public class Window extends PApplet{
     creatures = new ArrayList<Creature>();
     pManager = new PlayerManager(this);
     eManager = new EnemyManager(this);
-
-<<<<<<<<< Temporary merge branch 1
-    pMan.add();
-=========
     pManager.add();
->>>>>>>>> Temporary merge branch 2
 
     for (int i = 0; i < 10; i++) {
       eManager.add();
