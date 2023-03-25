@@ -8,9 +8,8 @@ import java.util.ArrayList;
 public class Window extends PApplet{
   public Sprite sprite;
   public ArrayList<Creature> creatures;
-  protected Window aa;
-  public EnemyManager eMan;
-  public PlayerManager pMan;
+  public EnemyManager eManager;
+  public PlayerManager pManager;
 
   Background background;
   StartMenu menu;
@@ -36,22 +35,27 @@ public class Window extends PApplet{
     menu.menuButtons();
   }
 
+  public void settings() {
+    size(640, 360);
+  }
+
   /**
    * initializes all the elements that are required.
    * these include the player and enemy.
    */
   public void init() {
     creatures = new ArrayList<Creature>();
-    pMan = new PlayerManager(this);
-    eMan = new EnemyManager(this);
 
-    pMan.add();
+    pManager = new PlayerManager(this);
+    eManager = new EnemyManager(this);
+
+    pManager.add();
 
     for (int i = 0; i < 10; i++) {
-      eMan.add();
+      eManager.add();
     }
-    creatures.addAll(eMan.getEnemies());
-    creatures.add(pMan.p);
+    creatures.addAll(eManager.getEnemies());
+    creatures.add(pManager.player);
   }
 
   public void draw() {
@@ -67,11 +71,11 @@ public class Window extends PApplet{
     switch (keyCode) {
       case LEFT:
         // handle left
-        pMan.getP().setDirection(pMan.getP().getDirection().rotate(-Window.PI / 16));
+        pManager.getPlayer().setDirection(pManager.getPlayer().getDirection().rotate(-Window.PI / 16));
         break;
       case RIGHT:
         // handle right
-        pMan.getP().setDirection(pMan.getP().getDirection().rotate(Window.PI / 16));
+        pManager.getPlayer().setDirection(pManager.getPlayer().getDirection().rotate(Window.PI / 16));
         break;
     }
   }
@@ -82,9 +86,9 @@ public class Window extends PApplet{
    * @param passedArgs arguments from command line
    */
   public static void main(String[] passedArgs) {
-    String[] appletArgs = new String[]{"aa"};
-    Window aa = new Window();
-    PApplet.runSketch(appletArgs, aa);
+    String[] appletArgs = new String[]{"shooter"};
+    Window shooter = new Window();
+    PApplet.runSketch(appletArgs, shooter);
   }
 
   public float getWidth() {
