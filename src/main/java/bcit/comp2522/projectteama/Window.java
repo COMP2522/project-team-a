@@ -11,8 +11,28 @@ public class Window extends PApplet{
   public EnemyManager eManager;
   public PlayerManager pManager;
 
+  Background background;
+  StartMenu menu;
+
+
+  public void settings() {
+    size(1200,800);
+
+  }
+
   public void setup() {
     this.init();
+    surface.setTitle("Shooting Space");
+    background = new Background(this);
+    setupMenu();
+  }
+
+  /**
+   * Sets up the menu.
+   */
+  public void setupMenu() {
+    menu = new StartMenu(this);
+    menu.menuButtons();
   }
 
   public void settings() {
@@ -25,6 +45,7 @@ public class Window extends PApplet{
    */
   public void init() {
     creatures = new ArrayList<Creature>();
+
     pManager = new PlayerManager(this);
     eManager = new EnemyManager(this);
 
@@ -38,7 +59,7 @@ public class Window extends PApplet{
   }
 
   public void draw() {
-    background(0);
+    background(42);
     for (Creature creature : creatures) {
       creature.draw();
     }
@@ -68,5 +89,13 @@ public class Window extends PApplet{
     String[] appletArgs = new String[]{"shooter"};
     Window shooter = new Window();
     PApplet.runSketch(appletArgs, shooter);
+  }
+
+  public float getWidth() {
+    return width;
+  }
+
+  public float getHeight() {
+    return height;
   }
 }
