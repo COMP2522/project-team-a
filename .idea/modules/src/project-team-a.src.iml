@@ -9,6 +9,10 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../src/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../src/build" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../src">
+      <excludeFolder url="file://$MODULE_DIR$/../../../src/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../src/build" />
+    </content>
     <orderEntry type="jdk" jdkName="19" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
