@@ -23,7 +23,7 @@ public class EnemyManager extends Manager{
   @Override
   public void add() {
     enemies.add(new Enemy(
-            new PVector(random(0, this.width), random(0, this.height)),
+            new PVector(random(0, window.width), random(0, window.height)),
             new PVector(random(-1, 1), random(-1, 1)),
             random(minSize, maxSize),
             random(0, 2),

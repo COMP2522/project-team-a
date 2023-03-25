@@ -1,8 +1,10 @@
 package bcit.comp2522.projectteama;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 import processing.event.KeyEvent;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Window extends PApplet{
@@ -12,28 +14,8 @@ public class Window extends PApplet{
   public EnemyManager eMan;
   public PlayerManager pMan;
 
-  Background background;
-  StartMenu menu;
-
-
-  public void settings() {
-    size(1200,800);
-
-  }
-
   public void setup() {
     this.init();
-    surface.setTitle("Shooting Space");
-    background = new Background(this);
-    setupMenu();
-  }
-
-  /**
-   * Sets up the menu.
-   */
-  public void setupMenu() {
-    menu = new StartMenu(this);
-    menu.menuButtons();
   }
 
   /**
@@ -45,6 +27,7 @@ public class Window extends PApplet{
     pMan = new PlayerManager(this);
     eMan = new EnemyManager(this);
 
+
     pMan.add();
 
     for (int i = 0; i < 10; i++) {
@@ -55,7 +38,7 @@ public class Window extends PApplet{
   }
 
   public void draw() {
-    background(42);
+    background(0);
     for (Creature creature : creatures) {
       creature.draw();
     }
@@ -85,13 +68,5 @@ public class Window extends PApplet{
     String[] appletArgs = new String[]{"aa"};
     Window aa = new Window();
     PApplet.runSketch(appletArgs, aa);
-  }
-
-  public float getWidth() {
-    return width;
-  }
-
-  public float getHeight() {
-    return height;
   }
 }
