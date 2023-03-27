@@ -1,28 +1,37 @@
 package bcit.comp2522.projectteama;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.event.KeyEvent;
 
+import java.awt.*;
 import java.util.ArrayList;
+
 
 public class Window extends PApplet{
   public Sprite sprite;
   public ArrayList<Creature> creatures;
   public EnemyManager eManager;
   public PlayerManager pManager;
+  public BulletManager bManager;
+  public StartMenuHandler startHandler;
+  PImage backgroundImage;
 
   Background background;
   StartMenu menu;
 
 
+
   public void settings() {
-    size(1200,800);
+    size(800,800);
 
   }
 
   public void setup() {
     this.init();
     surface.setTitle("Shooting Space");
+    backgroundImage = loadImage("images/background.png");
+    backgroundImage.resize(width, height);
     background = new Background(this);
     setupMenu();
   }
@@ -43,19 +52,27 @@ public class Window extends PApplet{
     creatures = new ArrayList<Creature>();
     pManager = new PlayerManager(this);
     eManager = new EnemyManager(this);
+    bManager = new BulletManager(this);
+    startHandler = new StartMenuHandler(this);
+
     pManager.add();
 
     for (int i = 0; i < 10; i++) {
       eManager.add();
     }
     creatures.addAll(eManager.getEnemies());
-    creatures.add(pManager.player);
-  }
+    creatures.add(pManager.getPlayer());
 
+  }
+  //Temporary implementation; Will change once button clicking is established
   public void draw() {
-    background(42);
-    for (Creature creature : creatures) {
-      creature.draw();
+    background(backgroundImage);
+    if (menu.isDisplayed()) {
+      menu.display();
+    } else {
+      for (Creature creature : creatures) {
+        creature.draw();
+      }
     }
   }
 

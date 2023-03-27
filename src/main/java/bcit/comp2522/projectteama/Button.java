@@ -3,6 +3,8 @@ package bcit.comp2522.projectteama;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
+import java.awt.*;
+
 public class Button {
 
     //Variables for button size and content
@@ -43,4 +45,5 @@ public class Button {
             return false;
         }
     }
+
 }
