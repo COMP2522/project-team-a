@@ -8,7 +8,7 @@ import processing.event.KeyEvent;
 
 public class PlayerManager extends Manager{
 
-  Player player;
+  private Player player;
   private Window window;
 
   public PlayerManager(Window window) {
@@ -23,10 +23,11 @@ public class PlayerManager extends Manager{
   public void add() {
      player = new Player( new PVector(window.width/2 , window.height/2 ),
             new PVector(0, 1),
-            9,
+            15,
             2,
             new Color(0, 255, 0), window, 3);
-
+     player.setHitBox(new Rectangle((int) player.getPosition().x,
+             (int) player.getPosition().y, (int) player.getSize(), (int)player.getSize()));
   }
 
 

@@ -4,7 +4,9 @@ import processing.core.PVector;
 
 import java.awt.*;
 
-public class Player extends Creature {
+public class Player extends Creature implements Collidable {
+
+
   /**
    * this is a constuctor for the Sprite class that equips the objects with basic
    * functionalities.
@@ -19,6 +21,7 @@ public class Player extends Creature {
    */
   public Player(PVector position, PVector direction, float size, float speed, Color color, Window window, int lives) {
     super(position, direction, size, speed, color, window, lives);
+
   }
 
   public void doFire(Bullet b) {
@@ -30,6 +33,18 @@ public class Player extends Creature {
   }
   @Override
   void takeDamage() {
+    this.lives--;
+  }
 
+  @Override
+  public Rectangle getHitBox() {
+    return hitBox;
+  }
+
+  @Override
+  public void handleCollision(Collidable other) {
+    if (other instanceof Enemy) {
+      takeDamage();
+    }
   }
 }

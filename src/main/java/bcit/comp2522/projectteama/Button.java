@@ -13,6 +13,7 @@ public class Button {
 
     //Displaying buttons in this window
     PApplet parent;
+    Window window;
 
     Button(PApplet parent, float x, float y, float w, float h, String text) {
         this.parent = parent;
@@ -34,16 +35,8 @@ public class Button {
         parent.text(text, x + w / 2, y + h / 2);
     }
 
-    /*
-     * This method checks if a click occurred inside a button
-     * If it does, return true
-     */
-    boolean isClicked(float mx, float my) {
-        if (mx >= x && mx <= x + w && my >= y && my <= y + h) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean isMouseOver() {
+        return parent.mouseX >= x && parent.mouseX <= x + w &&
+                parent.mouseY >= y && parent.mouseY <= y + h;
     }
-
 }

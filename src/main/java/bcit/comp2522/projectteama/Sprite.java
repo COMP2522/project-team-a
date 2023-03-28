@@ -2,7 +2,6 @@ package bcit.comp2522.projectteama;
 
 
 import java.awt.*;
-import java.util.Objects;
 
 import processing.core.PVector;
 
@@ -17,6 +16,8 @@ public class Sprite {
   protected float speed;
   protected Color color;
   protected Window window;
+  protected Rectangle hitBox;
+
 
   /**
    * this is a constuctor for the Sprite class that equips the objects with basic
@@ -65,12 +66,8 @@ public class Sprite {
     this.direction = direction;
   }
 
-  public void setSize(float size) {
-    this.size = size;
+  public void setHitBox(Rectangle hitBox){
+    this.hitBox = hitBox;
   }
 
-  public static boolean collided(Sprite a, Sprite b) {
-    float distance = PVector.dist(a.getPosition(), b.getPosition());
-    return distance <= (a.getSize() + b.getSize());
-  }
 }

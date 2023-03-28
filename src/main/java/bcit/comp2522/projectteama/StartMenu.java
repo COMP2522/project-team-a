@@ -1,6 +1,7 @@
 package bcit.comp2522.projectteama;
 
 import java.util.ArrayList;
+import processing.core.PApplet;
 import processing.core.PImage;
 import java.awt.*;
 
@@ -10,41 +11,30 @@ public class StartMenu {
 
     Window window;
 
-    boolean displayed = true;
-
     //Instantiate menu buttons
     private Button newGameButton;
     private Button quitButton;
-    private StartMenuHandler startHandler;
 
     ArrayList<Button> buttons;
+
+    public Button getNewGameButton() {
+        return newGameButton;
+    }
+
+    public Button getQuitButton() {
+        return quitButton;
+    }
 
     //constructor
     public StartMenu(Window window) {
         this.window = window;
-        startHandler = new StartMenuHandler(window);
         menuButtons();
     }
 
-    public void display() {
+    public void displayMenu() {
         newGameButton.display();
         quitButton.display();
     }
-
-    /**
-    displayed getter
-     */
-    public boolean isDisplayed() {
-        return displayed;
-    }
-
-    /**
-    Set true or false value for whether menu is being displayed
-     */
-    public void setDisplayed(boolean displayed) {
-        this.displayed = displayed;
-    }
-
 
     public void menuButtons() {
         float width = window.getWidth() / 2 - 100;

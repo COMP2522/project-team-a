@@ -9,8 +9,6 @@ import processing.event.KeyEvent;
 public class EnemyManager extends Manager{
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   private Window window;
-  int minSize = 10;
-  int maxSize = 15;
 
   public EnemyManager(Window window) {
     this.window = window;
@@ -22,13 +20,15 @@ public class EnemyManager extends Manager{
 
   @Override
   public void add() {
-    enemies.add(new Enemy(
+    Enemy enemy = new Enemy(
             new PVector(random(0, window.width), random(0, window.height)),
             new PVector(random(-1, 1), random(-1, 1)),
-            random(minSize, maxSize),
+            12,
             random(0, 2),
-            new Color(255, 0, 0), window, 3
-    ));
+            new Color(255, 255, 0), window, 3
+    );
+    enemy.setHitBox(new Rectangle((int) enemy.getPosition().x, (int) enemy.getPosition().y, (int)enemy.getSize(), (int)enemy.getSize()));
+    enemies.add(enemy);
   }
 
   @Override

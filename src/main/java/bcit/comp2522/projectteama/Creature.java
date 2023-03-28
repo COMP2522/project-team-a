@@ -8,6 +8,7 @@ import java.awt.*;
 public abstract class Creature extends Sprite{
   protected int lives;
 
+
   /**
    * this is a constuctor for the Sprite class that equips the objects with basic
    * functionalities.
@@ -25,4 +26,5 @@ public abstract class Creature extends Sprite{
   }
 
   abstract void takeDamage();
+
 }

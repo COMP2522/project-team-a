@@ -3,9 +3,8 @@ package bcit.comp2522.projectteama;
 import processing.core.PVector;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-public class Enemy extends Creature{
+public class Enemy extends Creature implements Collidable{
 
   /**
    * this is a constuctor for the Sprite class that equips the objects with basic
@@ -25,6 +24,16 @@ public class Enemy extends Creature{
 
   @Override
   void takeDamage() {
+
+  }
+
+  @Override
+  public Rectangle getHitBox() {
+    return null;
+  }
+
+  @Override
+  public void handleCollision(Collidable other) {
 
   }
 }

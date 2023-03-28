@@ -15,10 +15,11 @@ public class Window extends PApplet{
   public PlayerManager pManager;
   public BulletManager bManager;
   public StartMenuHandler startHandler;
+  public GameStateManager gameStateManager;
   PImage backgroundImage;
 
   Background background;
-  StartMenu menu;
+  StartMenu startMenu;
 
 
 
@@ -33,6 +34,7 @@ public class Window extends PApplet{
     backgroundImage = loadImage("images/background.png");
     backgroundImage.resize(width, height);
     background = new Background(this);
+
     setupMenu();
   }
 
@@ -40,8 +42,8 @@ public class Window extends PApplet{
    * Sets up the menu.
    */
   public void setupMenu() {
-    menu = new StartMenu(this);
-    menu.menuButtons();
+    startMenu = new StartMenu(this);
+    startMenu.menuButtons();
   }
 
   /**
@@ -54,6 +56,7 @@ public class Window extends PApplet{
     eManager = new EnemyManager(this);
     bManager = new BulletManager(this);
     startHandler = new StartMenuHandler(this);
+    gameStateManager = new GameStateManager();
 
     pManager.add();
 
@@ -67,12 +70,38 @@ public class Window extends PApplet{
   //Temporary implementation; Will change once button clicking is established
   public void draw() {
     background(backgroundImage);
-    if (menu.isDisplayed()) {
-      menu.display();
-    } else {
-      for (Creature creature : creatures) {
-        creature.draw();
-      }
+
+    /**
+    if (player.getLives() == 0) {
+      gameStateManager.setActiveState(GameState.GAME_OVER);
+    }
+    */
+    gameStateManager.getCurrentState();
+    switch (gameStateManager.getCurrentState()) {
+      case START_MENU:
+        startMenu.displayMenu();
+        break;
+      case IN_GAME:
+        for (Creature creature : creatures) {
+          creature.draw();
+        }
+        break;
+      //case PAUSED:
+        // Draw paused screen
+        //break;
+      case GAME_OVER:
+        // Draw game over screen
+        break;
+    }
+  }
+
+  public void mouseClicked() {
+    if (startMenu.getNewGameButton().isMouseOver()) {
+      gameStateManager.setInGameState();
+      draw();
+    }
+    if (startMenu.getQuitButton().isMouseOver()) {
+      exit();
     }
   }
 
