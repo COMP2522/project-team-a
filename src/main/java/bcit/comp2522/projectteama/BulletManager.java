@@ -1,8 +1,18 @@
 package bcit.comp2522.projectteama;
 
-public class BulletManager extends Manager{
+import java.awt.*;
+import java.util.ArrayList;
+import processing.core.PApplet;
+import processing.core.PVector;
+import processing.event.KeyEvent;
+public class BulletManager {
 
-    Window window;
+  private Bullet bullet;
+  private Window window;
+  public BulletManager(Window window) {
+    this.window = window;
+  }
+
 
     public BulletManager(Window window) {
         this.window = window;
