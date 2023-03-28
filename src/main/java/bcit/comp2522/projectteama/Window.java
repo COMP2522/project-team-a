@@ -4,7 +4,6 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.event.KeyEvent;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 
@@ -52,7 +51,7 @@ public class Window extends PApplet{
     creatures = new ArrayList<Creature>();
     pManager = new PlayerManager(this);
     eManager = new EnemyManager(this);
-    bManager = new BulletManager(this);
+    //bManager = new BulletManager(this);
     startHandler = new StartMenuHandler(this);
 
     pManager.add();
