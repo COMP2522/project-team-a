@@ -6,23 +6,13 @@ import java.awt.*;
 
 public class Player extends Creature implements Collidable {
 
-
-  /**
-   * this is a constuctor for the Sprite class that equips the objects with basic
-   * functionalities.
-   *
-   * @param position  the PVector position.
-   * @param direction the PVector direction.
-   * @param size      float size.
-   * @param speed     float speed.
-   * @param color     Color color.
-   * @param window    Window window.
-   * @param lives
-   */
-  public Player(PVector position, PVector direction, float size, float speed, Color color, Window window, int lives) {
-    super(position, direction, size, speed, color, window, lives);
-
+  public Player(PVector position, PVector direction, float width, float height,
+                float speed, Color color, Window window, Rectangle hitBox, int health) {
+    super(position, direction, width, height, speed, color, window, hitBox, health);
   }
+
+
+
 
   public void doFire(Bullet b) {
 
@@ -33,7 +23,7 @@ public class Player extends Creature implements Collidable {
   }
   @Override
   void takeDamage() {
-    this.lives--;
+    this.health--;
   }
 
   @Override
@@ -46,5 +36,8 @@ public class Player extends Creature implements Collidable {
     if (other instanceof Enemy) {
       takeDamage();
     }
+  }
+
+  public void setDirection(PVector rotate) {
   }
 }
