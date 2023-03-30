@@ -3,6 +3,7 @@ package bcit.comp2522.projectteama;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.event.KeyEvent;
+import processing.core.PVector;
 
 import java.util.ArrayList;
 
@@ -82,6 +83,7 @@ public class Window extends PApplet{
         break;
       case IN_GAME:
         for (Creature creature : creatures) {
+          creature.update();
           creature.draw();
         }
         break;
@@ -94,6 +96,33 @@ public class Window extends PApplet{
     }
   }
 
+  @Override
+  public void keyPressed() {
+    if (key == 'a' || key == 'A') {
+      pManager.getPlayer().setVelocity(new PVector(-3, pManager.getPlayer().getVelocity().y));
+    } else if (key == 'd' || key == 'D') {
+      pManager.getPlayer().setVelocity(new PVector(3, pManager.getPlayer().getVelocity().y));
+    } else if (key == 'w' || key == 'W') {
+      pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, -3));
+    } else if (key == 's' || key == 'S') {
+      pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, 3));
+    }
+  }
+
+  @Override
+  public void keyReleased() {
+    if ((key == 'a' || key == 'A') && pManager.getPlayer().getVelocity().x < 0) {
+      pManager.getPlayer().setVelocity(new PVector(0, pManager.getPlayer().getVelocity().y));
+    } else if ((key == 'd' || key == 'D') && pManager.getPlayer().getVelocity().x > 0) {
+      pManager.getPlayer().setVelocity(new PVector(0, pManager.getPlayer().getVelocity().y));
+    } else if ((key == 'w' || key == 'W') && pManager.getPlayer().getVelocity().y < 0) {
+      pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, 0));
+    } else if ((key == 's' || key == 'S') && pManager.getPlayer().getVelocity().y > 0) {
+      pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, 0));
+    }
+  }
+
+
   public void mouseClicked() {
     if (startMenu.getNewGameButton().isMouseOver()) {
       gameStateManager.setInGameState();
@@ -104,20 +133,6 @@ public class Window extends PApplet{
     }
   }
 
-  @Override
-  public void keyPressed(KeyEvent event) {
-    int keyCode = event.getKeyCode();
-    switch (keyCode) {
-      case LEFT:
-        // handle left
-        pManager.getPlayer().setDirection(pManager.getPlayer().getDirection().rotate(-Window.PI / 16));
-        break;
-      case RIGHT:
-        // handle right
-        pManager.getPlayer().setDirection(pManager.getPlayer().getDirection().rotate(Window.PI / 16));
-        break;
-    }
-  }
 
   /**
    * Main function.
