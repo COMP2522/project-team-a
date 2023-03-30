@@ -14,16 +14,15 @@ public class BulletManager {
   }
 
 
-    public BulletManager(Window window) {
-        this.window = window;
-    }
 
-    @Override
+
+
+    //@Override
     public void add() {
 
     }
 
-    @Override
+    //@Override
     public void remove() {
 
     }

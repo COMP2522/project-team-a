@@ -2,9 +2,8 @@ package bcit.comp2522.projectteama;
 
 import java.awt.*;
 import java.util.ArrayList;
-import processing.core.PApplet;
+
 import processing.core.PVector;
-import processing.event.KeyEvent;
 
 public class EnemyManager extends Manager{
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -23,11 +22,9 @@ public class EnemyManager extends Manager{
     Enemy enemy = new Enemy(
             new PVector(random(0, window.width), random(0, window.height)),
             new PVector(random(-1, 1), random(-1, 1)),
-            12,
-            random(0, 2),
-            new Color(255, 255, 0), window, 3
-    );
-    enemy.setHitBox(new Rectangle((int) enemy.getPosition().x, (int) enemy.getPosition().y, (int)enemy.getSize(), (int)enemy.getSize()));
+            20, 20, 2, new Color(255, 255, 0),
+            window, new Rectangle(0, 0, 20, 20), 3);
+
     enemies.add(enemy);
   }
 
