@@ -11,8 +11,20 @@ public class Player extends Creature implements Collidable {
     super(position, direction, width, height, speed, color, window, hitBox, health);
   }
 
+  /**
+   * Calculates and returns the current velocity of the sprite based on its direction and speed.
+   */
+  public PVector getVelocity() {
+    return PVector.mult(direction, speed);
+  }
 
-
+  /**
+   * Sets the velocity of the sprite based on the given velocity vector by updating its direction and speed fields.
+   */
+  public void setVelocity(PVector velocity) {
+    this.direction = velocity.copy().normalize();
+    this.speed = velocity.mag();
+  }
 
   public void doFire(Bullet b) {
 
@@ -38,6 +50,4 @@ public class Player extends Creature implements Collidable {
     }
   }
 
-  public void setDirection(PVector rotate) {
-  }
 }

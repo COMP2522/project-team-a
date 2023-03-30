@@ -2,7 +2,6 @@ package bcit.comp2522.projectteama;
 
 
 import java.awt.*;
-
 import processing.core.PVector;
 
 /**
@@ -40,17 +39,24 @@ public class Sprite {
     window.popStyle();
   }
 
+  public void update() {
+    this.position = this.getPosition().add(this.direction.copy().mult(speed));
+  }
+
+  public void setPosition(PVector position) {
+    this.position = position;
+  }
   public PVector getPosition() {
     return position.copy();
   }
 
 
-  public PVector getDirection() {
-    return direction.copy();
+  public void setDirection(PVector direction) {
+    this.direction = direction;
   }
 
-  public void setPosition(PVector position) {
-    this.position = position;
+  public PVector getDirection() {
+    return direction.copy();
   }
 
   public float getWidth() {
