@@ -21,8 +21,6 @@ public class Window extends PApplet{
   Background background;
   StartMenu startMenu;
 
-
-
   public void settings() {
     size(800,800);
 
@@ -31,10 +29,8 @@ public class Window extends PApplet{
   public void setup() {
     this.init();
     surface.setTitle("Shooting Space");
-    backgroundImage = loadImage("images/background.png");
+    backgroundImage = loadImage("images/backgroundI.png");
     backgroundImage.resize(width, height);
-    background = new Background(this);
-
     setupMenu();
   }
 
