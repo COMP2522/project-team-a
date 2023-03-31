@@ -1,7 +1,5 @@
 # Project
 
-Test
-
 ## Technical Project Requirements
 
 Hello world
