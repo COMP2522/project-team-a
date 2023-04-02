@@ -9,6 +9,7 @@ public class Player extends Creature implements Collidable {
   public Player(PVector position, PVector direction, float width, float height,
                 float speed, Color color, Window window, Rectangle hitBox, int health) {
     super(position, direction, width, height, speed, color, window, hitBox, health);
+
   }
 
   /**
@@ -26,8 +27,8 @@ public class Player extends Creature implements Collidable {
     this.speed = velocity.mag();
   }
 
-  public void doFire(Bullet b) {
-
+  public void doFire() {
+    window.getBManager().add(this.position, window.getAimDirection());
   }
 
   public void upgrade(){
