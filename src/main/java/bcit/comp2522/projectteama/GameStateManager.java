@@ -4,6 +4,7 @@ public class GameStateManager {
   public enum GameState {
     START_MENU,
     IN_GAME,
+    PAUSE,
     GAME_OVER
   }
   private GameState currentState;

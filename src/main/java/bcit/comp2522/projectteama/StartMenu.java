@@ -14,8 +14,8 @@ public class StartMenu {
     //Instantiate menu buttons
     private Button newGameButton;
     private Button quitButton;
-
-    ArrayList<Button> buttons;
+    private Button settingButton;
+    private Button scoreButton;
 
     public Button getNewGameButton() {
         return newGameButton;
@@ -23,6 +23,14 @@ public class StartMenu {
 
     public Button getQuitButton() {
         return quitButton;
+    }
+
+    public Button getScoreButton() {
+        return scoreButton;
+    }
+
+    public Button getSettingButton() {
+        return settingButton;
     }
 
     //constructor
@@ -34,12 +42,16 @@ public class StartMenu {
     public void displayMenu() {
         newGameButton.display();
         quitButton.display();
+        scoreButton.display();
+        settingButton.display();
     }
 
     public void menuButtons() {
         float width = window.getWidth() / 2 - 100;
-        this.newGameButton = new Button(window, window.getWidth() / 2 - 250, window.getHeight() / 2 - 50 , 200, 50, "New Game");
-        this.quitButton = new Button(window, window.getWidth() / 2  + 72, window.getHeight() / 2 - 50 , 200, 50, "Quit");
+        this.newGameButton = new Button(window, window.getWidth() / 2 - 330, window.getHeight() / 2 - 50 , 130, 50, "New Game");
+        this.scoreButton = new Button(window, window.getWidth() / 2  - 150, window.getHeight() / 2 - 50 , 130, 50, "Score");
+        this.quitButton = new Button(window, window.getWidth() / 2 + 200, window.getWidth() / 2 - 50, 130, 50, "Quit");
+        this.settingButton = new Button(window, window.getWidth() / 2 + 25, window.getWidth() / 2 - 50, 130, 50, "Setting");
 // TODO magic numbers
     }
 
