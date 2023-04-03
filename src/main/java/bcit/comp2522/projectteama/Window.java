@@ -2,25 +2,28 @@ package bcit.comp2522.projectteama;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-import processing.event.KeyEvent;
 import processing.core.PVector;
 
 import java.util.ArrayList;
 
 
 public class Window extends PApplet{
-  public Sprite sprite;
-  public ArrayList<Creature> creatures;
-  public EnemyManager eManager;
-  public PlayerManager pManager;
-  public BulletManager bManager;
-  public StartMenuHandler startHandler;
-  public GameStateManager gameStateManager;
-  PImage backgroundImage;
 
-  Background background;
+  private ArrayList<Creature> creatures;
+  private EnemyManager eManager;
+  private PlayerManager pManager;
+  private BulletManager bManager;
+  private StartMenuHandler startHandler;
+  private GameStateManager gameStateManager;
+  private PImage backgroundImage;
+  private PImage backgroundImage2;
+  private PVector aimDirection = new PVector(0, -1);
+
+
   StartMenu startMenu;
-
+  /**
+   * Sets window size
+   */
   public void settings() {
     size(800,800);
 
@@ -28,17 +31,19 @@ public class Window extends PApplet{
 
   public void setup() {
     this.init();
-    surface.setTitle("Shooting Space");
-    backgroundImage = loadImage("images/backgroundI.png");
+    surface.setTitle("Shooting Space"); // Constant
+    backgroundImage = loadImage("images/background.png"); // Move to a constant
     backgroundImage.resize(width, height);
-    setupMenu();
+    setupStartMenu();
   }
 
   /**
    * Sets up the menu.
    */
-  public void setupMenu() {
+  public void setupStartMenu() {
     startMenu = new StartMenu(this);
+    backgroundImage2 = loadImage("images/backgroundI.png"); // TODO
+    backgroundImage2.resize(width, height);
     startMenu.menuButtons();
   }
 
@@ -50,22 +55,22 @@ public class Window extends PApplet{
     creatures = new ArrayList<Creature>();
     pManager = new PlayerManager(this);
     eManager = new EnemyManager(this);
-    //bManager = new BulletManager(this);
+    bManager = new BulletManager(this);
     startHandler = new StartMenuHandler(this);
     gameStateManager = new GameStateManager();
 
     pManager.add();
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) { // magic number
       eManager.add();
     }
     creatures.addAll(eManager.getEnemies());
     creatures.add(pManager.getPlayer());
 
   }
-  //Temporary implementation; Will change once button clicking is established
+
   public void draw() {
-    background(backgroundImage);
+
 
     /**
     if (player.getLives() == 0) {
@@ -75,12 +80,18 @@ public class Window extends PApplet{
     gameStateManager.getCurrentState();
     switch (gameStateManager.getCurrentState()) {
       case START_MENU:
+        background(backgroundImage2);
         startMenu.displayMenu();
         break;
       case IN_GAME:
+        background(backgroundImage);
         for (Creature creature : creatures) {
           creature.update();
           creature.draw();
+        }
+        for (Bullet bullet : bManager.getBullets()) {
+          bullet.update();
+          bullet.draw();
         }
         break;
       //case PAUSED:
@@ -92,19 +103,40 @@ public class Window extends PApplet{
     }
   }
 
+  /**
+   * Processes key presses to control the player sprite
+   */
   @Override
   public void keyPressed() {
+    //Handles movement
     if (key == 'a' || key == 'A') {
-      pManager.getPlayer().setVelocity(new PVector(-3, pManager.getPlayer().getVelocity().y));
+      pManager.getPlayer().setVelocity(new PVector(-3, pManager.getPlayer().getVelocity().y)); // TODO
     } else if (key == 'd' || key == 'D') {
       pManager.getPlayer().setVelocity(new PVector(3, pManager.getPlayer().getVelocity().y));
     } else if (key == 'w' || key == 'W') {
       pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, -3));
     } else if (key == 's' || key == 'S') {
       pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, 3));
+      //Handles aiming
+    } else if (keyCode == LEFT) {
+      aimDirection = new PVector(-1,0).normalize();
+    } else if (keyCode == RIGHT) {
+      aimDirection = new PVector(1,0).normalize();
+    } else if (keyCode == UP) {
+      aimDirection = new PVector(0,-1).normalize();
+    } else if (keyCode == DOWN) {
+      aimDirection = new PVector(0, 1).normalize();
     }
+
   }
 
+  public PVector getAimDirection() {
+    return aimDirection;
+  }
+
+  /**
+   *  Sets key pressed state back to non-pressed state
+   */
   @Override
   public void keyReleased() {
     if ((key == 'a' || key == 'A') && pManager.getPlayer().getVelocity().x < 0) {
@@ -116,8 +148,14 @@ public class Window extends PApplet{
     } else if ((key == 's' || key == 'S') && pManager.getPlayer().getVelocity().y > 0) {
       pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, 0));
     }
+    if (key == ' ') {
+      pManager.getPlayer().doFire();
+    }
   }
 
+  public BulletManager getBManager() {
+    return bManager;
+  }
 
   public void mouseClicked() {
     if (startMenu.getNewGameButton().isMouseOver()) {
@@ -127,6 +165,7 @@ public class Window extends PApplet{
     if (startMenu.getQuitButton().isMouseOver()) {
       exit();
     }
+
   }
 
 
@@ -141,7 +180,7 @@ public class Window extends PApplet{
     PApplet.runSketch(appletArgs, shooter);
   }
 
-  public float getWidth() {
+  public float getWidth() { // put above main
     return width;
   }
 

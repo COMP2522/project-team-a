@@ -40,7 +40,7 @@ public class StartMenu {
         float width = window.getWidth() / 2 - 100;
         this.newGameButton = new Button(window, window.getWidth() / 2 - 250, window.getHeight() / 2 - 50 , 200, 50, "New Game");
         this.quitButton = new Button(window, window.getWidth() / 2  + 72, window.getHeight() / 2 - 50 , 200, 50, "Quit");
-
+// TODO magic numbers
     }
 
 
