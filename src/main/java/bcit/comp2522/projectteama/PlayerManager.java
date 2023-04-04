@@ -4,7 +4,7 @@ import processing.core.PVector;
 
 import java.awt.*;
 
-public class PlayerManager extends Manager{
+public class PlayerManager extends Manager<Player>{
 
   private Player player;
   private Window window;
@@ -22,11 +22,12 @@ public class PlayerManager extends Manager{
      player = new Player(new PVector(window.width/2 , window.height/2), new PVector(0, 0),
              30, 30, 2, new Color(0, 255, 0), window,
              new Rectangle(0, 0, 30, 30), 3);
+     player.setHitBox();
   }
 
   @Override
-  public void remove() {
-
+  public void remove(Player player) {
+    window.getGameStateManager().setGameOverState();
   }
 
 }

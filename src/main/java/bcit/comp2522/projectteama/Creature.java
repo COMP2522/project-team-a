@@ -5,7 +5,7 @@ import processing.core.PVector;
 import java.awt.*;
 
 
-public abstract class Creature extends Sprite{
+public abstract class Creature<T> extends Sprite{
   protected int health;
 
 
@@ -22,6 +22,6 @@ public abstract class Creature extends Sprite{
     this.health = health;
   }
 
-  abstract void takeDamage();
+  abstract void takeDamage(T object);
 
 }

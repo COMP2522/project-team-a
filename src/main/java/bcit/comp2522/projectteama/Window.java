@@ -66,7 +66,6 @@ public class Window extends PApplet{
    * these include the player and enemy.
    */
   public void init() {
-    creatures = new ArrayList<Creature>();
     pManager = new PlayerManager(this);
     eManager = new EnemyManager(this);
     bManager = new BulletManager(this);
@@ -78,19 +77,15 @@ public class Window extends PApplet{
     for (int i = 0; i < 10; i++) { // magic number
       eManager.add();
     }
-    creatures.addAll(eManager.getEnemies());
-    creatures.add(pManager.getPlayer());
+
 
   }
 
   public void draw() {
 
-
-    /**
-    if (player.getLives() == 0) {
-      gameStateManager.setActiveState(GameState.GAME_OVER);
+    if(pManager.getPlayer().getHealth() == 0) {
+      pManager.remove(pManager.getPlayer());
     }
-    */
     gameStateManager.getCurrentState();
     switch (gameStateManager.getCurrentState()) {
       case START_MENU:
@@ -99,9 +94,13 @@ public class Window extends PApplet{
         break;
       case IN_GAME:
         background(backgroundImage);
-        for (Creature creature : creatures) {
-          creature.update();
-          creature.draw();
+
+        pManager.getPlayer().update();
+        pManager.getPlayer().draw();
+
+        for (Enemy enemy : eManager.enemies) {
+          enemy.update();
+          enemy.draw();
         }
         for (Bullet bullet : bManager.getBullets()) {
           bullet.update();
@@ -173,6 +172,10 @@ public class Window extends PApplet{
     return bManager;
   }
 
+  public EnemyManager getEManager() {
+    return eManager;
+  }
+
   public void mouseClicked() {
     if (startMenu.getNewGameButton().isMouseOver()) {
       gameStateManager.setInGameState();
@@ -217,5 +220,9 @@ public class Window extends PApplet{
 
   public float getHeight() {
     return height;
+  }
+
+  public GameStateManager getGameStateManager() {
+    return gameStateManager;
   }
 }

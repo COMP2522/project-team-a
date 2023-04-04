@@ -41,6 +41,7 @@ public class Sprite {
 
   public void update() {
     this.position = this.getPosition().add(this.direction.copy().mult(speed));
+    this.setHitBox();
   }
 
   public void setPosition(PVector position) {
@@ -108,7 +109,7 @@ public class Sprite {
   }
 
 
-  public void setHitBox(Rectangle hitBox) {
+  public void setHitBox() {
     this.hitBox = new Rectangle((int) getPosition().x,
             (int) getPosition().y, (int) getWidth(), (int)getHeight());
   }

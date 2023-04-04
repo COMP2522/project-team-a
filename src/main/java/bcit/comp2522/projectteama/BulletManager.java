@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PVector;
 import processing.event.KeyEvent;
-public class BulletManager extends Manager{
+public class BulletManager extends Manager<Bullet>{
   private Window window;
 
   private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
@@ -21,7 +21,9 @@ public class BulletManager extends Manager{
   public void add(PVector position, PVector direction) {
     Bullet bullet = new Bullet(position, direction, 15, 15,
             10, new Color(0, 0, 255), window,
-            new Rectangle(0, 0, 30, 30), 1);
+            new Rectangle((int) position.x, (int)direction.y, 30, 30), 1);
+
+    bullet.setHitBox();
     bullets.add(bullet);
   }
 
@@ -33,7 +35,7 @@ public class BulletManager extends Manager{
 
 
   //@Override
-    public void remove() {
-
+    public void remove(Bullet bullet) {
+      bullets.remove(bullet);
     }
 }
