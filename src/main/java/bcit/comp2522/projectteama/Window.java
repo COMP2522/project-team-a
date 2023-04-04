@@ -14,13 +14,17 @@ public class Window extends PApplet{
   private PlayerManager pManager;
   private BulletManager bManager;
   private StartMenuHandler startHandler;
+  private GameOverMenuHandler gameOverHandler;
   private GameStateManager gameStateManager;
   private PImage backgroundImage;
   private PImage backgroundImage2;
+  private PImage backgroundImage3;
   private PVector aimDirection = new PVector(0, -1);
 
 
   StartMenu startMenu;
+
+  GameOverMenu gameOverMenu;
   /**
    * Sets window size
    */
@@ -34,6 +38,10 @@ public class Window extends PApplet{
     surface.setTitle("Shooting Space"); // Constant
     backgroundImage = loadImage("images/background.png"); // Move to a constant
     backgroundImage.resize(width, height);
+    backgroundImage2 = loadImage("images/backgroundI.png"); // TODO
+    backgroundImage2.resize(width, height);
+    backgroundImage3 = loadImage("images/GameOver.png");
+    backgroundImage3.resize(width,height);
     setupStartMenu();
   }
 
@@ -42,10 +50,16 @@ public class Window extends PApplet{
    */
   public void setupStartMenu() {
     startMenu = new StartMenu(this);
-    backgroundImage2 = loadImage("images/backgroundI.png"); // TODO
-    backgroundImage2.resize(width, height);
     startMenu.menuButtons();
   }
+
+//  /**
+//   * Sets up the menu.
+//   */
+//  public void setupGameOverMenu() {
+//    gameOverMenu = new GameOverMenu(this);
+//    gameOverMenu.GameOverMenuButtons();
+//  }
 
   /**
    * initializes all the elements that are required.
@@ -98,7 +112,9 @@ public class Window extends PApplet{
         // Draw paused screen
         //break;
       case GAME_OVER:
-        // Draw game over screen
+        background(backgroundImage3);
+        gameOverMenu.displayMenu();
+        //setupGameOverMenu();
         break;
     }
   }
@@ -165,7 +181,22 @@ public class Window extends PApplet{
     if (startMenu.getQuitButton().isMouseOver()) {
       exit();
     }
-
+    if (startMenu.getScoreButton().isMouseOver()) {
+      exit(); // changed this after the score board implemented;
+    }
+    if (startMenu.getSettingButton().isMouseOver()) {
+      exit(); // changed this after the setting board implemented;
+    }
+//    if (gameOverMenu.getStartMenuButton1().isMouseOver()) {
+//
+//    }
+//    if(gameOverMenu.getNewGameButton1().isMouseOver()) {
+////      gameStateManager.setInGameState();
+////      draw();
+//    }
+//    if (gameOverMenu.getQuitButton1().isMouseOver()) {
+////      exit();
+//    }
   }
 
 
