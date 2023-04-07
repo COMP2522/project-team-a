@@ -13,13 +13,13 @@ public class Window extends PApplet{
   private EnemyManager eManager;
   private PlayerManager pManager;
   private BulletManager bManager;
-  private StartMenuHandler startHandler;
-  private GameOverMenuHandler gameOverHandler;
+  private DatabaseHandler databaseHandler;
   private GameStateManager gameStateManager;
   private PImage backgroundImage;
   private PImage backgroundImage2;
   private PImage backgroundImage3;
   private PVector aimDirection = new PVector(0, -1);
+  private int currentScore = 0;
 
 
   StartMenu startMenu;
@@ -69,22 +69,22 @@ public class Window extends PApplet{
     pManager = new PlayerManager(this);
     eManager = new EnemyManager(this);
     bManager = new BulletManager(this);
-    startHandler = new StartMenuHandler(this);
+
     gameStateManager = new GameStateManager();
+    databaseHandler = new DatabaseHandler("spaceShoot", "spaceshoot", this);
 
     pManager.add();
 
     for (int i = 0; i < 10; i++) { // magic number
       eManager.add();
     }
-
-
   }
 
   public void draw() {
 
-    if(pManager.getPlayer().getHealth() == 0) {
+    if(pManager.getPlayer().getHealth() <= 0) {
       pManager.remove(pManager.getPlayer());
+      databaseHandler.put("Score");
     }
     gameStateManager.getCurrentState();
     switch (gameStateManager.getCurrentState()) {
@@ -125,6 +125,7 @@ public class Window extends PApplet{
   public void keyPressed() {
     //Handles movement
     if (key == 'a' || key == 'A') {
+      databaseHandler.put("Score");
       pManager.getPlayer().setVelocity(new PVector(-3, pManager.getPlayer().getVelocity().y)); // TODO
     } else if (key == 'd' || key == 'D') {
       pManager.getPlayer().setVelocity(new PVector(3, pManager.getPlayer().getVelocity().y));
@@ -147,6 +148,15 @@ public class Window extends PApplet{
 
   public PVector getAimDirection() {
     return aimDirection;
+  }
+
+
+  public void setCurrentScore(int currentScore) {
+    this.currentScore = currentScore;
+  }
+
+  public int getCurrentScore() {
+    return currentScore;
   }
 
   /**

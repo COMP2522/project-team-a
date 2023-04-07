@@ -1,7 +1,7 @@
 package bcit.comp2522.projectteama;
 
 import processing.core.PVector;
-import processing.core.PApplet;
+
 
 import java.awt.*;
 
@@ -17,9 +17,9 @@ public class Enemy extends Creature<Bullet> implements Collidable{
   @Override
   void takeDamage(Bullet bullet) {
     health = health - bullet.getDamage();
-    if (this.health == 0) {
+    if (this.health <= 0) {
       window.getEManager().remove(this);
-
+      window.setCurrentScore(window.getCurrentScore() + this.getScoreGiven());
     }
   }
 
@@ -35,5 +35,9 @@ public class Enemy extends Creature<Bullet> implements Collidable{
         this.takeDamage((Bullet) other);
       }
     }
+  }
+
+  public int getScoreGiven() {
+    return scoreGiven;
   }
 }

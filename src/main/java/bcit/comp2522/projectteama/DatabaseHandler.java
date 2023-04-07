@@ -13,9 +13,10 @@ public class DatabaseHandler {
 
     MongoDatabase database;
     String myCollection;
+    private Window window;
 
-
-    public DatabaseHandler(String username, String password) {
+    public DatabaseHandler(String username, String password, Window window) {
+        this.window = window;
         ConnectionString connectionString = new ConnectionString("mongodb+srv://spaceShoot:spaceshoot@2522project.dtdwv6c.mongodb.net/?retryWrites=true&w=majority");
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
@@ -34,18 +35,13 @@ public class DatabaseHandler {
         }
 
     }
-    public void put(String key, String value) {
+    public void put(String key) {
         Document document = new Document();
-        document.append(key, value);
+        document.append(key, this.window.getCurrentScore());
         new Thread (() -> database.getCollection(myCollection).insertOne(document)).start();
     }
 
-    public static void main(String[] args) {
-        DatabaseHandler db = new DatabaseHandler("spaceShoot", "spaceshoot");
-        db.put("score", "10");
-        db.put("score", "20");
-        db.put("score", "30");
-    }
+
 
 
 
