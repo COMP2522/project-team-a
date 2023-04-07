@@ -15,6 +15,12 @@ public class DatabaseHandler {
     String myCollection;
     private Window window;
 
+    /**
+     * DB handler constructor
+     * @param username
+     * @param password
+     * @param window
+     */
     public DatabaseHandler(String username, String password, Window window) {
         this.window = window;
         ConnectionString connectionString = new ConnectionString("mongodb+srv://spaceShoot:spaceshoot@2522project.dtdwv6c.mongodb.net/?retryWrites=true&w=majority");
@@ -35,15 +41,16 @@ public class DatabaseHandler {
         }
 
     }
+
+    /**
+     * Stores a key value pair in the database
+     * @param key
+     */
     public void put(String key) {
         Document document = new Document();
         document.append(key, this.window.getCurrentScore());
         new Thread (() -> database.getCollection(myCollection).insertOne(document)).start();
     }
-
-
-
-
 
 
 }

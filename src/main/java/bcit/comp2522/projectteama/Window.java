@@ -33,6 +33,9 @@ public class Window extends PApplet{
 
   }
 
+  /**
+   * Initializes all required elements
+   */
   public void setup() {
     this.init();
     surface.setTitle("Shooting Space"); // Constant
@@ -80,12 +83,17 @@ public class Window extends PApplet{
     }
   }
 
+  /**
+   *  Draws the current state of the window based on game state set
+   *  by gameStateManager
+   */
   public void draw() {
-
+    //When player loses all health
     if(pManager.getPlayer().getHealth() <= 0) {
       pManager.remove(pManager.getPlayer());
       databaseHandler.put("Score");
     }
+
     gameStateManager.getCurrentState();
     switch (gameStateManager.getCurrentState()) {
       case START_MENU:
@@ -159,6 +167,26 @@ public class Window extends PApplet{
     return currentScore;
   }
 
+  public float getHeight() {
+    return height;
+  }
+
+  public float getWidth() { // put above main
+    return width;
+  }
+
+  public GameStateManager getGameStateManager() {
+    return gameStateManager;
+  }
+
+  public BulletManager getBManager() {
+    return bManager;
+  }
+
+  public EnemyManager getEManager() {
+    return eManager;
+  }
+
   /**
    *  Sets key pressed state back to non-pressed state
    */
@@ -176,14 +204,6 @@ public class Window extends PApplet{
     if (key == ' ') {
       pManager.getPlayer().doFire();
     }
-  }
-
-  public BulletManager getBManager() {
-    return bManager;
-  }
-
-  public EnemyManager getEManager() {
-    return eManager;
   }
 
   public void mouseClicked() {
@@ -212,7 +232,6 @@ public class Window extends PApplet{
 //    }
   }
 
-
   /**
    * Main function.
    *
@@ -224,15 +243,4 @@ public class Window extends PApplet{
     PApplet.runSketch(appletArgs, shooter);
   }
 
-  public float getWidth() { // put above main
-    return width;
-  }
-
-  public float getHeight() {
-    return height;
-  }
-
-  public GameStateManager getGameStateManager() {
-    return gameStateManager;
-  }
 }

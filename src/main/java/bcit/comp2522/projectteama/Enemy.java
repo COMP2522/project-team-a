@@ -12,14 +12,12 @@ public class Enemy extends Creature<Bullet> implements Collidable{
     super(position, direction, width, height, speed, color, window, hitBox, health);
   }
 
-
-
   @Override
   void takeDamage(Bullet bullet) {
     health = health - bullet.getDamage();
     if (this.health <= 0) {
       window.getEManager().remove(this);
-      window.setCurrentScore(window.getCurrentScore() + this.getScoreGiven());
+      window.setCurrentScore(window.getCurrentScore() + this.scoreGiven);
     }
   }
 
@@ -35,9 +33,5 @@ public class Enemy extends Creature<Bullet> implements Collidable{
         this.takeDamage((Bullet) other);
       }
     }
-  }
-
-  public int getScoreGiven() {
-    return scoreGiven;
   }
 }
