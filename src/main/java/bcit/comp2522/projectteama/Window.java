@@ -4,15 +4,12 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
-import java.util.ArrayList;
-
 
 public class Window extends PApplet{
 
-  private ArrayList<Creature> creatures;
-  private EnemyManager eManager;
-  private PlayerManager pManager;
-  private BulletManager bManager;
+  private EnemyManager enemyManager;
+  private PlayerManager playerManager;
+  private BulletManager bulletManager;
   private DatabaseHandler databaseHandler;
   private GameStateManager gameStateManager;
   private PImage backgroundImage;
@@ -20,10 +17,7 @@ public class Window extends PApplet{
   private PImage backgroundImage3;
   private PVector aimDirection = new PVector(0, -1);
   private int currentScore = 0;
-
-
   StartMenu startMenu;
-
   GameOverMenu gameOverMenu;
   /**
    * Sets window size
@@ -69,17 +63,17 @@ public class Window extends PApplet{
    * these include the player and enemy.
    */
   public void init() {
-    pManager = new PlayerManager(this);
-    eManager = new EnemyManager(this);
-    bManager = new BulletManager(this);
+    playerManager = new PlayerManager(this);
+    enemyManager = new EnemyManager(this);
+    bulletManager = new BulletManager(this);
 
     gameStateManager = new GameStateManager();
     databaseHandler = new DatabaseHandler("spaceShoot", "spaceshoot", this);
 
-    pManager.add();
+    playerManager.add();
 
     for (int i = 0; i < 10; i++) { // magic number
-      eManager.add();
+      enemyManager.add();
     }
   }
 
@@ -89,8 +83,8 @@ public class Window extends PApplet{
    */
   public void draw() {
     //When player loses all health
-    if(pManager.getPlayer().getHealth() <= 0) {
-      pManager.remove(pManager.getPlayer());
+    if(playerManager.getPlayer().getHealth() <= 0) {
+      playerManager.remove(playerManager.getPlayer());
       databaseHandler.put("Score");
     }
 
@@ -103,14 +97,14 @@ public class Window extends PApplet{
       case IN_GAME:
         background(backgroundImage);
 
-        pManager.getPlayer().update();
-        pManager.getPlayer().draw();
+        playerManager.getPlayer().update();
+        playerManager.getPlayer().draw();
 
-        for (Enemy enemy : eManager.enemies) {
+        for (Enemy enemy : enemyManager.enemies) {
           enemy.update();
           enemy.draw();
         }
-        for (Bullet bullet : bManager.getBullets()) {
+        for (Bullet bullet : bulletManager.getBullets()) {
           bullet.update();
           bullet.draw();
         }
@@ -134,57 +128,88 @@ public class Window extends PApplet{
     //Handles movement
     if (key == 'a' || key == 'A') {
       databaseHandler.put("Score");
-      pManager.getPlayer().setVelocity(new PVector(-3, pManager.getPlayer().getVelocity().y)); // TODO
+      playerManager.getPlayer().setVelocity(new PVector(-3, playerManager.getPlayer().getVelocity().y)); // TODO
     } else if (key == 'd' || key == 'D') {
-      pManager.getPlayer().setVelocity(new PVector(3, pManager.getPlayer().getVelocity().y));
+      playerManager.getPlayer().setVelocity(new PVector(3, playerManager.getPlayer().getVelocity().y));
     } else if (key == 'w' || key == 'W') {
-      pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, -3));
+      playerManager.getPlayer().setVelocity(new PVector(playerManager.getPlayer().getVelocity().x, -3));
     } else if (key == 's' || key == 'S') {
-      pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, 3));
+      playerManager.getPlayer().setVelocity(new PVector(playerManager.getPlayer().getVelocity().x, 3));
       //Handles aiming
     } else if (keyCode == LEFT) {
-      aimDirection = new PVector(-1,0).normalize();
+      aimDirection = new PVector(-1, 0).normalize();
     } else if (keyCode == RIGHT) {
-      aimDirection = new PVector(1,0).normalize();
+      aimDirection = new PVector(1, 0).normalize();
     } else if (keyCode == UP) {
-      aimDirection = new PVector(0,-1).normalize();
+      aimDirection = new PVector(0, -1).normalize();
     } else if (keyCode == DOWN) {
       aimDirection = new PVector(0, 1).normalize();
     }
 
   }
 
+  /**
+   * Gets the direction the player is currently aiming.
+   * @return A PVector representing the aim direction
+   */
   public PVector getAimDirection() {
     return aimDirection;
   }
 
-
+  /**
+   * Sets the current score.
+   * @param currentScore The new current score value.
+   */
   public void setCurrentScore(int currentScore) {
     this.currentScore = currentScore;
   }
 
+  /**
+   * Gets the current score.
+   * @return The current score.
+   */
   public int getCurrentScore() {
     return currentScore;
   }
 
+  /**
+   * Gets the height of the game window.
+   * @return The height of the game window.
+   */
   public float getHeight() {
     return height;
   }
 
+  /**
+   * Gets the width of the game window.
+   * @return The width of the game window.
+   */
   public float getWidth() { // put above main
     return width;
   }
 
+  /**
+   * Gets the game state manager.
+   * @return The game state manager.
+   */
   public GameStateManager getGameStateManager() {
     return gameStateManager;
   }
 
+  /**
+   * Gets the bullet manager.
+   * @return The bullet manager.
+   */
   public BulletManager getBManager() {
-    return bManager;
+    return bulletManager;
   }
 
+  /**
+   * Gets the enemy manager.
+   * @return The enemy manager.
+   */
   public EnemyManager getEManager() {
-    return eManager;
+    return enemyManager;
   }
 
   /**
@@ -192,20 +217,23 @@ public class Window extends PApplet{
    */
   @Override
   public void keyReleased() {
-    if ((key == 'a' || key == 'A') && pManager.getPlayer().getVelocity().x < 0) {
-      pManager.getPlayer().setVelocity(new PVector(0, pManager.getPlayer().getVelocity().y));
-    } else if ((key == 'd' || key == 'D') && pManager.getPlayer().getVelocity().x > 0) {
-      pManager.getPlayer().setVelocity(new PVector(0, pManager.getPlayer().getVelocity().y));
-    } else if ((key == 'w' || key == 'W') && pManager.getPlayer().getVelocity().y < 0) {
-      pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, 0));
-    } else if ((key == 's' || key == 'S') && pManager.getPlayer().getVelocity().y > 0) {
-      pManager.getPlayer().setVelocity(new PVector(pManager.getPlayer().getVelocity().x, 0));
+    if ((key == 'a' || key == 'A') && playerManager.getPlayer().getVelocity().x < 0) {
+      playerManager.getPlayer().setVelocity(new PVector(0, playerManager.getPlayer().getVelocity().y));
+    } else if ((key == 'd' || key == 'D') && playerManager.getPlayer().getVelocity().x > 0) {
+      playerManager.getPlayer().setVelocity(new PVector(0, playerManager.getPlayer().getVelocity().y));
+    } else if ((key == 'w' || key == 'W') && playerManager.getPlayer().getVelocity().y < 0) {
+      playerManager.getPlayer().setVelocity(new PVector(playerManager.getPlayer().getVelocity().x, 0));
+    } else if ((key == 's' || key == 'S') && playerManager.getPlayer().getVelocity().y > 0) {
+      playerManager.getPlayer().setVelocity(new PVector(playerManager.getPlayer().getVelocity().x, 0));
     }
     if (key == ' ') {
-      pManager.getPlayer().doFire();
+      playerManager.getPlayer().doFire();
     }
   }
 
+  /**
+   * Handles mouse click events
+   */
   public void mouseClicked() {
     if (startMenu.getNewGameButton().isMouseOver()) {
       gameStateManager.setInGameState();
