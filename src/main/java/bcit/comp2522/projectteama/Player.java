@@ -4,7 +4,7 @@ import processing.core.PVector;
 
 import java.awt.*;
 
-public class Player extends Creature implements Collidable {
+public class Player extends Creature<Enemy> implements Collidable {
 
   public Player(PVector position, PVector direction, float width, float height,
                 float speed, Color color, Window window, Rectangle hitBox, int health) {
@@ -35,7 +35,7 @@ public class Player extends Creature implements Collidable {
 
   }
   @Override
-  void takeDamage() {
+  void takeDamage(Enemy enemy) {
     this.health--;
   }
 
@@ -47,7 +47,9 @@ public class Player extends Creature implements Collidable {
   @Override
   public void handleCollision(Collidable other) {
     if (other instanceof Enemy) {
-      takeDamage();
+      if (isCollidingWith(other)) {
+        takeDamage((Enemy) other);
+      }
     }
   }
 

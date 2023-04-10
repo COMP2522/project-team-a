@@ -13,13 +13,13 @@ public class Window extends PApplet{
   private EnemyManager eManager;
   private PlayerManager pManager;
   private BulletManager bManager;
-  private StartMenuHandler startHandler;
-  private GameOverMenuHandler gameOverHandler;
+  private DatabaseHandler databaseHandler;
   private GameStateManager gameStateManager;
   private PImage backgroundImage;
   private PImage backgroundImage2;
   private PImage backgroundImage3;
   private PVector aimDirection = new PVector(0, -1);
+  private int currentScore = 0;
 
 
   StartMenu startMenu;
@@ -33,6 +33,9 @@ public class Window extends PApplet{
 
   }
 
+  /**
+   * Initializes all required elements
+   */
   public void setup() {
     this.init();
     surface.setTitle("Shooting Space"); // Constant
@@ -66,31 +69,31 @@ public class Window extends PApplet{
    * these include the player and enemy.
    */
   public void init() {
-    creatures = new ArrayList<Creature>();
     pManager = new PlayerManager(this);
     eManager = new EnemyManager(this);
     bManager = new BulletManager(this);
-    startHandler = new StartMenuHandler(this);
+
     gameStateManager = new GameStateManager();
+    databaseHandler = new DatabaseHandler("spaceShoot", "spaceshoot", this);
 
     pManager.add();
 
     for (int i = 0; i < 10; i++) { // magic number
       eManager.add();
     }
-    creatures.addAll(eManager.getEnemies());
-    creatures.add(pManager.getPlayer());
-
   }
 
+  /**
+   *  Draws the current state of the window based on game state set
+   *  by gameStateManager
+   */
   public void draw() {
-
-
-    /**
-    if (player.getLives() == 0) {
-      gameStateManager.setActiveState(GameState.GAME_OVER);
+    //When player loses all health
+    if(pManager.getPlayer().getHealth() <= 0) {
+      pManager.remove(pManager.getPlayer());
+      databaseHandler.put("Score");
     }
-    */
+
     gameStateManager.getCurrentState();
     switch (gameStateManager.getCurrentState()) {
       case START_MENU:
@@ -99,9 +102,13 @@ public class Window extends PApplet{
         break;
       case IN_GAME:
         background(backgroundImage);
-        for (Creature creature : creatures) {
-          creature.update();
-          creature.draw();
+
+        pManager.getPlayer().update();
+        pManager.getPlayer().draw();
+
+        for (Enemy enemy : eManager.enemies) {
+          enemy.update();
+          enemy.draw();
         }
         for (Bullet bullet : bManager.getBullets()) {
           bullet.update();
@@ -126,6 +133,7 @@ public class Window extends PApplet{
   public void keyPressed() {
     //Handles movement
     if (key == 'a' || key == 'A') {
+      databaseHandler.put("Score");
       pManager.getPlayer().setVelocity(new PVector(-3, pManager.getPlayer().getVelocity().y)); // TODO
     } else if (key == 'd' || key == 'D') {
       pManager.getPlayer().setVelocity(new PVector(3, pManager.getPlayer().getVelocity().y));
@@ -150,6 +158,35 @@ public class Window extends PApplet{
     return aimDirection;
   }
 
+
+  public void setCurrentScore(int currentScore) {
+    this.currentScore = currentScore;
+  }
+
+  public int getCurrentScore() {
+    return currentScore;
+  }
+
+  public float getHeight() {
+    return height;
+  }
+
+  public float getWidth() { // put above main
+    return width;
+  }
+
+  public GameStateManager getGameStateManager() {
+    return gameStateManager;
+  }
+
+  public BulletManager getBManager() {
+    return bManager;
+  }
+
+  public EnemyManager getEManager() {
+    return eManager;
+  }
+
   /**
    *  Sets key pressed state back to non-pressed state
    */
@@ -167,10 +204,6 @@ public class Window extends PApplet{
     if (key == ' ') {
       pManager.getPlayer().doFire();
     }
-  }
-
-  public BulletManager getBManager() {
-    return bManager;
   }
 
   public void mouseClicked() {
@@ -199,7 +232,6 @@ public class Window extends PApplet{
 //    }
   }
 
-
   /**
    * Main function.
    *
@@ -211,11 +243,4 @@ public class Window extends PApplet{
     PApplet.runSketch(appletArgs, shooter);
   }
 
-  public float getWidth() { // put above main
-    return width;
-  }
-
-  public float getHeight() {
-    return height;
-  }
 }
